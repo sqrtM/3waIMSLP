@@ -1,5 +1,23 @@
 # 3waIMSLP
 
+## Front
+- search bar with user-selectable meta-data (sortBy, sortDirection ...);
+- User Interface to see previously selected favorites.
+
+## Back
+- UserController
+- - Create
+  - Delete
+  - Edit
+  - Get
+- SearchController
+- - Build URL
+  - Check the `moreresultsavailable` metadata.
+
+## DB
+- User Table
+- Favorited Music table 
+
 # conception
 
 ## Trouver un sujet
