@@ -10,6 +10,22 @@ class SearchService
     {
     }
 
+    public function getMusicByIndex(int $index)
+    {
+        $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=2/start=" . $index . "/limit=1/retformat=json");
+        $json = json_decode($response, associative: true);
+        array_pop($json);
+        return $json["0"];
+    }
+
+    public function getComposerByIndex(int $index)
+    {
+        $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=1/start=" . $index . "/limit=1/retformat=json");
+        $json = json_decode($response, associative: true);
+        array_pop($json);
+        return $json["0"];
+    }
+
     public function searchForMusic(string $searchTerm, int $iterations)
     {
         $results = [];
