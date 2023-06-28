@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\FavoritesRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FavoritesRepository::class)]
@@ -16,32 +14,46 @@ class Favorites
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $api_id = null;
+    private ?int $imslpIndex = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $imslpId = null;
 
     #[ORM\Column]
     private ?int $type = null;
 
-    #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'favorites')]
-    private Collection $favorited_users;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    public function __construct()
-    {
-        $this->favorited_users = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'favorites')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Users $favoritedUserId = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getApiId(): ?int
+    public function getImslpIndex(): ?int
     {
-        return $this->api_id;
+        return $this->imslp_index;
     }
 
-    public function setApiId(int $api_id): static
+    public function setImslpIndex(int $imslpIndex): static
     {
-        $this->api_id = $api_id;
+        $this->imslp_index = $imslpIndex;
+
+        return $this;
+    }
+
+    public function getImslpId(): ?string
+    {
+        return $this->imslp_id;
+    }
+
+    public function setImslpId(string $imslpId): static
+    {
+        $this->imslp_id = $imslpId;
 
         return $this;
     }
@@ -58,26 +70,26 @@ class Favorites
         return $this;
     }
 
-    /**
-     * @return Collection<int, Users>
-     */
-    public function getFavoritedUsers(): Collection
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->favorited_users;
+        return $this->createdAt;
     }
 
-    public function addFavoritedUser(Users $favoritedUser): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        if (!$this->favorited_users->contains($favoritedUser)) {
-            $this->favorited_users->add($favoritedUser);
-        }
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function removeFavoritedUser(Users $favoritedUser): static
+    public function getFavoritedUser(): ?Users
     {
-        $this->favorited_users->removeElement($favoritedUser);
+        return $this->FavoritedUser;
+    }
+
+    public function setFavoritedUser(?Users $favoritedUserId): static
+    {
+        $this->FavoritedUser = $favoritedUserId;
 
         return $this;
     }
