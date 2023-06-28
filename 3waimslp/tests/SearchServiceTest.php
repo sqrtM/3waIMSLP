@@ -21,6 +21,6 @@ class SearchServiceTest extends TestCase {
         $this->search = new SearchService();
         $jsonRes = $this->search->searchForTargetMusic("mahler");
         fwrite(STDERR, print_r($jsonRes, TRUE));
-        $this->assertIsInt(4);
+        $this->assertIsInt(5);
     }
 }
