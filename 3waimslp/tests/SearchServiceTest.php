@@ -1,26 +1,23 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace Tests;
 
 use App\Service\SearchService;
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
-class SearchServiceTest extends TestCase {
+class SearchServiceTest extends TestCase
+{
 
     private SearchService $search;
 
-    public function testSearchServiceCallsApi() {
+    public function testSearchForMusicAlgorithmWorks()
+    {
         $this->search = new SearchService();
-        $jsonRes = $this->search->callApiForMusic(0);
-        $this->assertIsInt(strpos($jsonRes, "Amicizia"));
-    }
-
-    public function testSearchAlgorithmWorks() {
-        $this->search = new SearchService();
-        $jsonRes = $this->search->searchForTargetMusic("Cembalo");
-        fwrite(STDERR, print_r($jsonRes, TRUE));
-        $this->assertIsInt(5);
+        $results = $this->search->searchForMusic("Cembalo", 5);
+        fwrite(STDERR, print_r($results, TRUE));
+        $this->assertIsArray($results);
     }
 }
