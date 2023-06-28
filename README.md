@@ -1,58 +1,35 @@
-# 3waIMSLP
+#production
 
-## Front
-- search bar with user-selectable meta-data (sortBy, sortDirection ...);
-- User Interface to see previously selected favorites.
+## interface utilisateur :
 
-## Back
-- UserController
-- - Create
-  - Delete
-  - Edit
-  - Get
-- SearchController
-- - Build URL
-  - Check the `moreresultsavailable` metadata.
+- créer son compte
+- s'identifier / déconnexion
 
-## DB
-- User Table
-- Favorited Music table 
+front : utiliser une librairie (bootstrap, ...)
 
-# conception
+twig / controllers et entity sur SF
 
-## Trouver un sujet
+## la recherche :
 
-Quand vous l'avez trouvé, vous m'en faites part
+- tester l'api
+- créer le formulaire
+- la page de résultat
 
-## L'expression des besoins
+-> penser à prévoir des tests (une liste de scénarios, qu'est ce qui est attendu, le test est il conforme ?)
 
-- le contexte
-- la cible de l'application
-- les fonctionnalités principales
-- les contraintes (ex: pour un sujet grand public : utilisable sur mobile)
 
-## Conception de l'interface
+## la mise en favori d'un item : 
 
-Réaliser les écrans principaux sous forme de Wireframe  (figma, https://wireframe.cc/, ...)
+- persistance de la donnée en base
 
-## Définir une stack technique (front, back et BDD)
 
-Il faudra argumenter ce choix
+### Méthodologie :
 
-## planning et méthodologie de travail
+- travail d'équipe
+- s'organiser sur un trello 
+- versionner votre travail
 
-## conception de l'application (UML)
+### finalité :
 
-- diagramme des cas d'utilisations
-- 2-3 diagrammes d'activités
-- diagramme des classes
-
-## conception base de données (merise)
-
-- modèle conceptuel de données (MCD)
-- modèle logique de données (MLD)
-- modèle physique de données (MPD)
-
-### Finalité :
-
-Présenter ces travaux à l'oral avec un support de présentation (20 min)
+- une démo de l'avancement
+- une explication orale du code source
