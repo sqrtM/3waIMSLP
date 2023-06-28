@@ -4,11 +4,30 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Exception;
-use SebastianBergmann\Invoker\TimeoutException;
-
 class SearchService {
     public function __construct() {
+    }
+
+    public function searchForMusic(string $searchTerm, int $iterations) {
+        $results = [];
+        for ($i = 0; $i < $iterations; $i++) {
+            $response = $this->searchApiForTargetMusic($searchTerm, $i * 1000);
+            if (!is_null($response)) {
+                array_push($results, ...$response);
+            }
+        }
+        return $results;
+    }
+
+    public function searchForComposer(string $searchTerm, int $iterations) {
+        $results = [];
+        for ($i = 0; $i < $iterations; $i++) {
+            $response = $this->searchApiForTargetComposer($searchTerm, $i * 1000);
+            if (!is_null($response)) {
+                array_push($results, ...$response);
+            }
+        }
+        return $results;
     }
 
     private function callApiForMusic(int $start): string {
@@ -22,7 +41,7 @@ class SearchService {
 
     private function searchApiForTargetMusic(string $target, int $start) {
         $json = $this->callApiForMusic($start);
-        // if we can't find it .... 
+        // if we can't find a match .... 
         if (!strpos($json, $target)) {
             return null;
         } else {
@@ -31,25 +50,35 @@ class SearchService {
             $returnArr = [];
             for ($i = 0; $i < count($arr); $i++) {
                 if (strpos($arr[$i]["intvals"]["worktitle"], $target) !== false) {
-                    array_push($returnArr, $arr[$i - 1]);
+                    if ($i - 1 >= 0) array_push($returnArr, $arr[$i - 1]);
                     array_push($returnArr, $arr[$i]);
-                    array_push($returnArr, $arr[$i + 1]);
-                    array_push($returnArr, $arr[$i + 2]);
+                    if ($i + 1 < 1000) array_push($returnArr, $arr[$i + 1]);
+                    if ($i + 2 < 1000) array_push($returnArr, $arr[$i + 2]);
                 }
             }
             return $returnArr;
         }
     }
-    
-    public function searchForMusic(string $searchTerm, int $iterations) {
-        $results = [];
-        for ($i = 0; $i < $iterations; $i++) {
-            $response = $this->searchApiForTargetMusic($searchTerm, $i * 1000);
-            if (!is_null($response)) {
-                array_push($results, ...$response);
+
+    private function searchApiForTargetComposer(string $target, int $start) {
+        $json = $this->callApiForComposer($start);
+        // if we can't find a match .... 
+        if (!strpos($json, $target)) {
+            return null;
+        } else {
+            $arr = json_decode($json, associative: true);
+            array_pop($arr); // remove metadata from array
+            $returnArr = [];
+            for ($i = 0; $i < count($arr); $i++) {
+                if (strpos($arr[$i]["id"], $target) !== false) {
+                    if ($i - 1 >= 0) array_push($returnArr, $arr[$i - 1]);
+                    array_push($returnArr, $arr[$i]);
+                    if ($i + 1 < 1000) array_push($returnArr, $arr[$i + 1]);
+                    if ($i + 2 < 1000) array_push($returnArr, $arr[$i + 2]);
+                }
             }
+            return $returnArr;
         }
-        return $results;
     }
 }
 
