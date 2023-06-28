@@ -11,3 +11,25 @@ h2 {
 .header {
     background-color: #75a5e6
 }
+
+.sidebar {
+    background-color: #5c5858;
+    color: #fff;
+    height: 100vh;
+    width: 200px !important;
+}
+
+.searchResult {
+
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    padding: 10px;
+}
+
+.searchResult:hover {
+    cursor: pointer;
+    box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
+}
+
+.fontBold {
+    font-weight: bold;
+}

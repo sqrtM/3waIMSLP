@@ -3,14 +3,44 @@
 
 {% block body %}
 
-    <div class="header">
-        <h2 class="classicEncyclopedyTitle">
+    <div class="header text-white text-center p-4 w-100">
+        <h3 class="classicEncyclopedyTitle">
             Classic Encyclopedy
-        </h2>
-        <hr>
-        <h3>
-            Découvrez les plus beaux morceaux de la musique classique !
         </h3>
+        <hr>
+        <h4>
+            Découvrez les plus beaux morceaux de la musique classique !
+        </h4>
+    </div>
+
+    <div class=" row">
+        <div class="sidebar mr-4 block">
+
+            <p class="mt-5">Favoris</p>
+{#            {% if app.user %}#}
+{#            <a  class="text-decoration-none text-white" href="{{ path('logout') }}">Se Deconnecter</a>#}
+{#            {% else %}#}
+                <a  class="text-decoration-none text-white" href="">Se Connecter</a>
+{#            {% endif %}#}
+        </div>
+
+        <div class="column w-75">
+            <div class="m-auto">
+                    <h4 class="mt-5 text-center">
+                        Rechercher un artiste ou une oeuvre !
+                    </h4>
+                    <div class="searchBar mt-3 text-center">
+                        <input class="search w-50">
+                    </div>
+            </div>
+
+            <div class="containerSearchResults m-auto w-75">
+                {% include 'home/searchResults.html.twig' %}
+            </div>
+
+
+
+
     </div>
 
 
