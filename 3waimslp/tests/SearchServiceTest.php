@@ -19,7 +19,7 @@ class SearchServiceTest extends TestCase {
 
     public function testSearchAlgorithmWorks() {
         $this->search = new SearchService();
-        $jsonRes = $this->search->searchForTargetMusic("mahler");
+        $jsonRes = $this->search->searchForTargetMusic("Cembalo");
         fwrite(STDERR, print_r($jsonRes, TRUE));
         $this->assertIsInt(5);
     }

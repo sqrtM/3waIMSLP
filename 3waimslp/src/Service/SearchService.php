@@ -18,13 +18,22 @@ class SearchService {
 
 
     public function searchForTargetMusic(string $target) {
-        // API has 224063 entries in music, so take a guess as to a good starting spot
-        // for now we start in the middle
-        $json = $this->callApiForMusic(110000);
+        $json = $this->callApiForMusic(0);
         if (strpos($json, $target) === false) {
             return json_decode($json, associative: true)[0]["intvals"]["worktitle"];
         } else {
-            return "hello";
+            $arr = json_decode($json, associative: true);
+            array_pop($arr); // remove metadata from array
+            $returnArr = [];
+            for ($i = 0; $i < count($arr); $i++) {
+                if (strpos($arr[$i]["intvals"]["worktitle"], $target) !== false) {
+                    array_push($returnArr, $arr[$i - 1]);
+                    array_push($returnArr, $arr[$i]);
+                    array_push($returnArr, $arr[$i + 1]);
+                    array_push($returnArr, $arr[$i + 2]);
+                }
+            }
+            return $returnArr;
         }
     }   
 }
