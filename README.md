@@ -33,3 +33,11 @@ twig / controllers et entity sur SF
 
 - une démo de l'avancement
 - une explication orale du code source
+
+
+USERS TABLE
+![image](https://github.com/sqrtM/3waIMSLP/assets/79169638/112a8a67-69ab-4fbb-9456-788d3a0dfb47)
+
+FAVORITES TABLE
+![image](https://github.com/sqrtM/3waIMSLP/assets/79169638/5b77bc8b-ed08-4e37-ae2b-60c6e5a69e29)
+
