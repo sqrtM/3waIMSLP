@@ -3,28 +3,41 @@
 
 {% block body %}
 
-    <div class="header text-white text-center p-4 w-100">
-        <h3 class="classicEncyclopedyTitle">
-            Classic Encyclopedy
-        </h3>
-        <hr>
-        <h4>
-            Découvrez les plus beaux morceaux de la musique classique !
-        </h4>
+    <div class="headerHome text-white text-center p-4 w-100">
+        <div class="column containerTitle">
+            <h3 class="classicEncyclopedyTitle">
+                Classic Encyclopedy
+            </h3>
+            <hr>
+            <h4>
+                Découvrez les plus beaux morceaux de la musique classique !
+            </h4>
+        </div>
+
+        <div class="menuHamburger align-self-center flex justify-end w-25 d-none"><i class="fas fa-solid fa-bars" style="color: #ffffff;"></i></div>
     </div>
 
-    <div class=" row">
-        <div class="sidebar mr-4 block">
+<div class="menuResponsive d-none">
+    <p class=""><a class="text-decoration-none text-white  ms-2" href="">Favoris <i class="fas fa-heart fa-lg"></i></a></p>
+    {#            {% if app.user %}#}
+    {#            <a  class="text-decoration-none text-white" href="{{ path('logout') }}">Se Deconnecter</a>#}
+    {#            {% else %}#}
+    <a  class="text-decoration-none text-white ms-2" href="">Se Connecter</a>
+    {#            {% endif %}#}
+</div>
 
-            <p class="mt-5">Favoris</p>
+    <div class=" row">
+        <div class="sidebarHome mr-4 block">
+
+                <p class="mt-5"><a class="text-decoration-none text-white  ms-2" href="">Favoris <i class="fas fa-heart fa-lg"></i></a></p>
 {#            {% if app.user %}#}
 {#            <a  class="text-decoration-none text-white" href="{{ path('logout') }}">Se Deconnecter</a>#}
 {#            {% else %}#}
-                <a  class="text-decoration-none text-white" href="">Se Connecter</a>
+                <a  class="text-decoration-none text-white ms-2" href="">Se Connecter</a>
 {#            {% endif %}#}
         </div>
 
-        <div class="column w-75">
+        <div class="contentMainSearch column">
             <div class="m-auto">
                     <h4 class="mt-5 text-center">
                         Rechercher un artiste ou une oeuvre !
@@ -34,7 +47,7 @@
                     </div>
             </div>
 
-            <div class="containerSearchResults m-auto w-75">
+            <div class="containerSearchResults m-auto">
                 {% include 'home/searchResults.html.twig' %}
             </div>
 

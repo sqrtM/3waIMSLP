@@ -8,20 +8,24 @@ h2 {
 
 }
 
-.header {
+.headerHome {
     background-color: #75a5e6
 }
 
-.sidebar {
+.sidebarHome {
     background-color: #5c5858;
     color: #fff;
     height: 100vh;
     width: 200px !important;
 }
 
-.searchResult {
+.fa-bars {
+    font-size: 30px;
+}
 
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+
+.searchResult {
+    box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px 0;
     padding: 10px;
 }
 
@@ -32,4 +36,36 @@ h2 {
 
 .fontBold {
     font-weight: bold;
+}
+
+.contentMainSearch {
+    width: 75% !important;
+    margin: auto;
+}
+
+.containerSearchResults {
+    width: 75% !important;
+    margin: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .contentMainSearch {
+        width: 100% !important;
+        margin: auto;
+    }
+
+    .containerSearchResults {
+        width: 100% !important;
+    }
+
+    .searchResult {
+        margin: 10px;
+    }
+
+    .menuResponsive {
+        background-color: #5c5858;
+        color: #fff;
+        width: 100%;
+        padding: 10px;
+    }
 }
