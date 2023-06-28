@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests;
 
 use App\Service\SearchService;
-use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
 class SearchServiceTest extends TestCase
