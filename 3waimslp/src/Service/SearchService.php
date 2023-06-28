@@ -12,7 +12,7 @@ class SearchService {
         return file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=2/start=$start/limit=1000/retformat=json");
     }
 
-    private function callApiForComposer(int $start): string {
+    public function callApiForComposer(int $start): string {
         return file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=1/start=$start/limit=1000/retformat=json");
     }
 
@@ -20,7 +20,12 @@ class SearchService {
     public function searchForTargetMusic(string $target) {
         // API has 224063 entries in music, so take a guess as to a good starting spot
         // for now we start in the middle
-        //$json = callApiForMusic(110000);
+        $json = $this->callApiForMusic(110000);
+        if (strpos($json, $target) === false) {
+            return json_decode($json, associative: true)[0]["intvals"]["worktitle"];
+        } else {
+            return "hello";
+        }
     }   
 }
 
