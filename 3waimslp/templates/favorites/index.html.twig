@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favorites{% endblock %}
+
+{% block body %}
+
+    <div class="searchResult mt-4">
+        <ul class="list-group">
+            {% for favorite in favorites %}
+                    {% if(favorite.type == 1) %}
+                        <li class="list-group-item d-flex justify-content-between" style="cursor: default">{{ favorite.id |slice(9, favorite.id|length) }}
+                            <a class="btn btn-danger" href="{{ path('app_favorites_delete', {'id' : favorite.idDb}) }}">Supprimer</a>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item d-flex justify-content-between" style="cursor: default">{{ favorite.intvals.worktitle ~ " (" ~ favorite.intvals.composer ~ ")" }}
+                            <a class="btn btn-danger" href="{{ path('app_favorites_delete', {'id' : favorite.idDb}) }}">Supprimer</a>
+                        </li>
+                    {% endif %}
+            {% endfor %}
+        </ul>
+        <a class="btn btn-danger" href="{{ path("app_home") }}">Retour</a>
+    </div>
+
+
+{% endblock %}
