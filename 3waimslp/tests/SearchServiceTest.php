@@ -17,7 +17,7 @@ class SearchServiceTest extends TestCase
     public function testSearchForMusicAlgorithm()
     {
         $this->service = new SearchService();
-        $results = $this->service->music->search("e", 2, 10);
+        $results = $this->service->music->search("a", 1000, 5);
         fwrite(STDERR, print_r($results, TRUE));
         $this->assertIsArray($results);
         $this->assertNotEmpty($results);
@@ -26,7 +26,7 @@ class SearchServiceTest extends TestCase
     public function testSearchForComposerAlgorithm()
     {
         $this->service = new SearchService();
-        $results = $this->service->composer->search("A", 5, 10);
+        $results = $this->service->composer->search("o", 1000, 5);
         fwrite(STDERR, print_r($results, TRUE));
         $this->assertIsArray($results);
         $this->assertNotEmpty($results);
