@@ -30,36 +30,37 @@ class SearchController extends AbstractController
         //get data from request
         $get = $request->query->all();
 
-        $musics =  $this->musicSearch->search($get['search']['search'], 5);
-        $composers = $this->composerSearch->search($get['search']['search'], 5);
+        //get all resssources
+        $musics =  $this->musicSearch->search($get['search']['search'], 5,10);
+        $composers = $this->composerSearch->search($get['search']['search'], 5,10);
 
+        //merge
         $data = array_merge($musics, $composers);
 
-        //Call api with data to get results
+        //send data to view
         return $this->render('search/results.html.twig', [
             'datas' => $data
         ]);
     }
 
-    //TODO Mettre id en {id} où seras notre imslpIndex pour retrouver la ressource
-    #[Route('/search/id', name: 'app_search_favorite')]
-    public function addFavorite(): Response
+    #[Route('/search/{type}/{id}', name: 'app_search_favorite')]
+    public function addFavorite(int $type, int $id): Response
     {
 
         $fav = new Favorites();
 
-        //get data from api with imslpIndex avec files_get_content
+        //set data from url
         $fav->setFavoritedUser($this->getUser());
         $fav->setCreatedAt(new \DateTimeImmutable());
-        $fav->setType(1);
-        $fav->setImslpId("1");
-        $fav->setImslpIndex(1);
+        $fav->setType($type);
+        $fav->setImslpId('1');
+        $fav->setImslpIndex($id);
 
 
         $this->entityManager->persist($fav);
 
         $this->entityManager->flush();
 
-        return $this->render('search/favorite.html.twig');
+        return $this->redirectToRoute('app_home');
     }
 }

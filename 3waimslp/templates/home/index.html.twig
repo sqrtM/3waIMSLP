@@ -33,7 +33,7 @@
 {#            {% if app.user %}#}
 {#            <a  class="text-decoration-none text-white" href="{{ path('logout') }}">Se Deconnecter</a>#}
 {#            {% else %}#}
-                <a  class="text-decoration-none text-white ms-2" href="">Se Connecter</a>
+                <a  class="text-decoration-none text-white ms-2" href="{{ path('app_login') }}">Se Connecter</a>
 {#            {% endif %}#}
         </div>
 
