@@ -20,52 +20,54 @@ class SearchServiceTest extends TestCase
         $results = $this->service->music->search("e", 2, 10);
         fwrite(STDERR, print_r($results, TRUE));
         $this->assertIsArray($results);
+        $this->assertNotEmpty($results);
     }
 
-    // public function testSearchForComposerAlgorithm()
-    // {
-    //     $this->service = new SearchService();
-    //     $results = $this->service->composer->search("A", 5, 10);
-    //     fwrite(STDERR, print_r($results, TRUE));
-    //     $this->assertIsArray($results);
-    // }
+    public function testSearchForComposerAlgorithm()
+    {
+        $this->service = new SearchService();
+        $results = $this->service->composer->search("A", 5, 10);
+        fwrite(STDERR, print_r($results, TRUE));
+        $this->assertIsArray($results);
+        $this->assertNotEmpty($results);
+    }
 
-    // public function testGetMusicByIndex() 
-    // {
-    //     $this->service = new SearchService();
-    //     $results = $this->service->music->getByIndex(378);
-    //     //fwrite(STDERR, print_r($results, TRUE));
-    //     $this->assertEquals("10 Deutsche Tänze mit Coda (Vocet, Ignác)", $results["id"]);
-    // }
+    public function testGetMusicByIndex() 
+    {
+        $this->service = new SearchService();
+        $results = $this->service->music->getByIndex(378);
+        //fwrite(STDERR, print_r($results, TRUE));
+        $this->assertEquals("10 Deutsche Tänze mit Coda (Vocet, Ignác)", $results["id"]);
+    }
 
-    // public function testGetComposerByIndex() 
-    // {
-    //     $this->service = new SearchService();
-    //     $results = $this->service->composer->getByIndex(378);
-    //     //fwrite(STDERR, print_r($results, TRUE));
-    //     $this->assertEquals("Category:Akhmatova, Anna", $results["id"]);
-    // }
+    public function testGetComposerByIndex() 
+    {
+        $this->service = new SearchService();
+        $results = $this->service->composer->getByIndex(378);
+        //fwrite(STDERR, print_r($results, TRUE));
+        $this->assertEquals("Category:Akhmatova, Anna", $results["id"]);
+    }
 
-    // public function testNoApiResponseThrowsException() 
-    // {
-    //     $this->expectException(NoApiResponseException::class);
-    //     $this->getComposerByIndexBadUrl(378);
-    // }
+    public function testNoApiResponseThrowsException() 
+    {
+        $this->expectException(NoApiResponseException::class);
+        $this->getComposerByIndexBadUrl(378);
+    }
 
-    // private function getComposerByIndexBadUrl(int $index)
-    // {
-    //     try {
-    //         $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.ph?account=worklist/disclaimer=accepted/sort=id/type=1/start=" . $index . "/limit=1/retformat=json");
-    //     } catch (Exception $e) {
-    //         throw new NoApiResponseException($e->getMessage(), $e->getCode());
-    //     }
+    private function getComposerByIndexBadUrl(int $index)
+    {
+        try {
+            $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.ph?account=worklist/disclaimer=accepted/sort=id/type=1/start=" . $index . "/limit=1/retformat=json");
+        } catch (Exception $e) {
+            throw new NoApiResponseException($e->getMessage(), $e->getCode());
+        }
 
-    //     if ($response === false) {
-    //         throw new NoApiResponseException();
-    //     } else {
-    //         $json = json_decode($response, associative: true);
-    //         array_pop($json);
-    //         return $json["0"];
-    //     }
-    // }
+        if ($response === false) {
+            throw new NoApiResponseException();
+        } else {
+            $json = json_decode($response, associative: true);
+            array_pop($json);
+            return $json["0"];
+        }
+    }
 }
