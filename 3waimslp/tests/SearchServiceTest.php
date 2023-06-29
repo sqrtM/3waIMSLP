@@ -17,17 +17,19 @@ class SearchServiceTest extends TestCase
     public function testSearchForMusicAlgorithm()
     {
         $this->service = new SearchService();
-        $results = $this->service->music->search("Cembalo", 2);
-        //fwrite(STDERR, print_r($results, TRUE));
+        $results = $this->service->music->search("e", 2, 10);
+        fwrite(STDERR, print_r($results, TRUE));
         $this->assertIsArray($results);
+        $this->assertNotEmpty($results);
     }
 
     public function testSearchForComposerAlgorithm()
     {
         $this->service = new SearchService();
-        $results = $this->service->composer->search("Andreini", 3);
-        //fwrite(STDERR, print_r($results, TRUE));
+        $results = $this->service->composer->search("A", 5, 10);
+        fwrite(STDERR, print_r($results, TRUE));
         $this->assertIsArray($results);
+        $this->assertNotEmpty($results);
     }
 
     public function testGetMusicByIndex() 
