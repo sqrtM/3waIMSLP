@@ -43,6 +43,7 @@ h2 {
     margin: auto;
 }
 
+
 .containerSearchResults {
     width: 75% !important;
     margin: auto;
@@ -50,6 +51,11 @@ h2 {
 
 @media screen and (max-width: 768px) {
     .contentMainSearch {
+        width: 100% !important;
+        margin: auto;
+    }
+
+    .contentDetails {
         width: 100% !important;
         margin: auto;
     }

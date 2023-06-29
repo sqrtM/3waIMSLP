@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+<div class="headerDetails text-white text-center p-4 w-100">
+    <div class="column containerTitleDetails">
+        <h3 class="classicEncyclopedyTitle">
+            Classic Encyclopedy
+        </h3>
+        <hr>
+        <h4>
+            Découvrez les plus beaux morceaux de la musique classique !
+        </h4>
+    </div>
+
+    <div class="menuHamburgerDetails align-self-center flex justify-end w-25 d-none"><i class="fas fa-solid fa-bars" style="color: #ffffff;"></i></div>
+</div>
+
+<div class="menuResponsiveDetails d-none">
+    <p class=""><a class="text-decoration-none text-white  ms-2" href="">Favoris <i class="fas fa-heart fa-lg"></i></a></p>
+    {#            {% if app.user %}#}
+    {#            <a  class="text-decoration-none text-white" href="{{ path('logout') }}">Se Deconnecter</a>#}
+    {#            {% else %}#}
+    <a  class="text-decoration-none text-white ms-2" href="">Se Connecter</a>
+    {#            {% endif %}#}
+</div>
+
+<div class=" row">
+    <div class="sidebarDetails mr-4 block">
+        {% if app.user %}
+            <p class="mt-5"><a class="text-decoration-none text-white  ms-2" href="">Favoris <i class="fas fa-heart fa-lg"></i></a></p>
+
+            <a  class="text-decoration-none text-white ms-2" href="{{ path('app_logout') }}">Se Déconnecter</a>
+        {% else %}
+            <a  class="text-decoration-none text-white ms-2" href="{{ path('app_login') }}">Se Connecter</a>
+        {% endif %}
+    </div>
+
+    <div class="contentDetails mt-5">
+        <div class="m-auto">
+            <div class="column flex-md-row">
+                <img class="col-md-3 col-8"  src="{{ asset("assets/files/mozart.jpg") }}">
+
+                <div class="column col-md-9">
+
+                    <p>Mozart</p>
+
+                    <p>Compositeur</p>
+
+                    <p>Lorem ipsum dolor sit amet consectetur. Nisl neque pellentesque neque ornare sed nisi ullamcorper aliquam. Libero et tempor nibh ultricies duis turpis. </p>
+                </div>
+            </div>
+
+        </div>
+        <div class="ajoutFavoris mt-2 d-flex">
+            <a  class="text-decoration-none text-black ms-2" href="{{ path('app_search_favorite') }}">Ajouter aux favoris  <i class="fas fa-heart fa-lg"></i></a>
+
+        </div>
+    </div>
+
+</div>
+
+    {% endblock %}

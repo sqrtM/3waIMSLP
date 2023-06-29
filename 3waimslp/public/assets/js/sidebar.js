@@ -4,12 +4,14 @@ if(window.outerWidth < 768) {
     let menuHamburger = document.querySelector(".menuHamburger");
     let header = document.querySelector(".headerHome");
     let containerTitle = document.querySelector(".containerTitle");
-    if(sidebarHome) {
+    if(sidebarHome ) {
         sidebarHome.classList.add('d-none');
     }
+
     if(containerTitle) {
         containerTitle.classList.add('w-75');
     }
+
     if(header) {
         header.classList.add('d-flex');
     }
@@ -19,9 +21,6 @@ if(window.outerWidth < 768) {
 
     menuHamburger.addEventListener("click", () => {
         const menuResponsive = document.querySelector(".menuResponsive");
-        console.log(menuResponsive)
-        console.log('here')
-
         if(menuResponsive.classList.contains("d-none") ) {
             menuResponsive.classList.remove('d-none')
         } else {

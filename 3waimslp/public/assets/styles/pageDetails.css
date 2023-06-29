@@ -1,0 +1,32 @@
+.contentDetails {
+    width: 75% !important;
+    margin: auto;
+}
+
+.headerDetails {
+    background-color: #6C98CD
+}
+
+.sidebarDetails {
+    background-color: #5c5858;
+    color: #fff;
+    height: 100vh;
+    width: 200px !important;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .contentDetails {
+        width: 100% !important;
+        margin: auto;
+    }
+
+    .menuResponsiveDetails {
+        background-color: #5c5858;
+        color: #fff;
+        width: 100%;
+        padding: 10px;
+    }
+
+}
