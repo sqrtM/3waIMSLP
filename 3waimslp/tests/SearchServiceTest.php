@@ -12,36 +12,36 @@ use PHPUnit\Framework\TestCase;
 class SearchServiceTest extends TestCase
 {
 
-    private SearchService $search;
+    private SearchService $service;
 
     public function testSearchForMusicAlgorithm()
     {
-        $this->search = new SearchService();
-        $results = $this->search->searchForMusic("Cembalo", 2);
+        $this->service = new SearchService();
+        $results = $this->service->music->search("Cembalo", 2);
         //fwrite(STDERR, print_r($results, TRUE));
         $this->assertIsArray($results);
     }
 
     public function testSearchForComposerAlgorithm()
     {
-        $this->search = new SearchService();
-        $results = $this->search->searchForComposer("Andreini", 3);
+        $this->service = new SearchService();
+        $results = $this->service->composer->search("Andreini", 3);
         //fwrite(STDERR, print_r($results, TRUE));
         $this->assertIsArray($results);
     }
 
     public function testGetMusicByIndex() 
     {
-        $this->search = new SearchService();
-        $results = $this->search->getMusicByIndex(378);
+        $this->service = new SearchService();
+        $results = $this->service->music->getByIndex(378);
         //fwrite(STDERR, print_r($results, TRUE));
         $this->assertEquals("10 Deutsche Tänze mit Coda (Vocet, Ignác)", $results["id"]);
     }
 
     public function testGetComposerByIndex() 
     {
-        $this->search = new SearchService();
-        $results = $this->search->getComposerByIndex(378);
+        $this->service = new SearchService();
+        $results = $this->service->composer->getByIndex(378);
         //fwrite(STDERR, print_r($results, TRUE));
         $this->assertEquals("Category:Akhmatova, Anna", $results["id"]);
     }
