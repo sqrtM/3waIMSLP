@@ -36,24 +36,24 @@ class Favorites
 
     public function getImslpIndex(): ?int
     {
-        return $this->imslp_index;
+        return $this->imslpIndex;
     }
 
     public function setImslpIndex(int $imslpIndex): static
     {
-        $this->imslp_index = $imslpIndex;
+        $this->imslpIndex = $imslpIndex;
 
         return $this;
     }
 
     public function getImslpId(): ?string
     {
-        return $this->imslp_id;
+        return $this->imslpId;
     }
 
     public function setImslpId(string $imslpId): static
     {
-        $this->imslp_id = $imslpId;
+        $this->imslpId = $imslpId;
 
         return $this;
     }
@@ -84,12 +84,12 @@ class Favorites
 
     public function getFavoritedUser(): ?Users
     {
-        return $this->FavoritedUser;
+        return $this->favoritedUserId;
     }
 
     public function setFavoritedUser(?Users $favoritedUserId): static
     {
-        $this->FavoritedUser = $favoritedUserId;
+        $this->favoritedUserId = $favoritedUserId;
 
         return $this;
     }

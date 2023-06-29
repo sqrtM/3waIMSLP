@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form, { 'action': path("app_search_results"), 'method': 'GET' }) }}
+
+        {{ form_row(form.search)}}
+
+        {{ form_row(form.submit) }}
+
+    {{ form_end(form) }}
+
+{% endblock %}
