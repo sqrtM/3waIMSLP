@@ -31,11 +31,8 @@ class MusicSearch implements Search
     {
         $resultsPerPage = 1000;
         $results = [];
-        for ($i = 0; $i < $iterations; $i++) {
-            $response = $this->findTarget($searchTerm, $i * $resultsPerPage, $numOfResponses);
-            if (!is_null($response)) {
-                array_push($results, ...$response);
-            }
+        for ($i = 0; $i < $iterations && count($results) < $numOfResponses; $i++) {
+            $results = $this->findTarget($searchTerm, $i * $resultsPerPage, $numOfResponses, $results);
         }
         return $results;
     }
@@ -54,44 +51,45 @@ class MusicSearch implements Search
         }
     }
 
-    private function findTarget(string $target, int $start, int $numOfResponses): array
+    private function findTarget(string $target, int $start, int $numOfResponses, array $returnArr): array
     {
         try {
             $json = $this->callApi($start);
         } catch (NoApiResponseException $e) {
             throw $e;
         }
-        $arr = json_decode($json, associative: true);
-        array_pop($arr); // remove metadata from array
-        $returnArr = $this->recursiveSearch($arr, $target, $start, $numOfResponses);
+        if (strpos($json, $target) !== false && count($returnArr) < $numOfResponses) {
+            $arr = json_decode($json, associative: true);
+            array_pop($arr); // remove metadata from array
+            array_push($returnArr, ...$this->recursiveSearch($arr, $target, $start, $numOfResponses));
+        }
         return $returnArr;
     }
 
     private function recursiveSearch(
-        array &$arr,
+        array $arr,
         string $target,
         int $index,
         int $numOfResponses,
         int $offset = 0,
-        array &$results = array()
+        array $results = array()
     ): array {
         foreach ($arr as $key => $value) {
             try {
                 $offset = strpos($value["id"], $target, $offset);
-            } catch (ValueError $_e) {
+            } catch (ValueError $e) {
                 return $results;
             }
-            if ($offset !== false) {
-                for ($i = 0; $i < $numOfResponses && $key + $i < 1000; $i++) {
-                    array_push($results, [($key + $index + $i) => $arr[$key + $i]]); 
-                }
+
+            if ($offset !== false && count($results) < $numOfResponses) {
+                array_push($results, [($key + $index) => $arr[$key]]); 
                 $arr = array_slice($arr, count($results));
                 return $this->recursiveSearch(
                     $arr,
                     $target,
                     $index + count($results),
                     $numOfResponses,
-                    $offset + 1,
+                    $offset,
                     $results
                 );
             } else {
