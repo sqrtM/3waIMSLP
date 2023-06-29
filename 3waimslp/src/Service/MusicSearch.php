@@ -6,10 +6,11 @@ namespace App\Service;
 
 use App\Exception\NoApiResponseException;
 use Exception;
+use ValueError;
 
-class MusicSearch
+class MusicSearch implements Search
 {
-    public function getByIndex(int $index)
+    public function getByIndex(int $index): array
     {
         try {
             $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=2/start=" . $index . "/limit=1/retformat=json");
@@ -26,11 +27,12 @@ class MusicSearch
         }
     }
 
-    public function search(string $searchTerm, int $iterations, int $desiredResponses)
+    public function search(string $searchTerm, int $iterations, int $numOfResponses): array
     {
+        $resultsPerPage = 1000;
         $results = [];
         for ($i = 0; $i < $iterations; $i++) {
-            $response = $this->findTarget($searchTerm, $i * 1000, $desiredResponses);
+            $response = $this->findTarget($searchTerm, $i * $resultsPerPage, $numOfResponses);
             if (!is_null($response)) {
                 array_push($results, ...$response);
             }
@@ -52,37 +54,46 @@ class MusicSearch
         }
     }
 
-    private function findTarget(string $target, int $start, int $desiredResponses)
+    private function findTarget(string $target, int $start, int $numOfResponses): array
     {
         try {
             $json = $this->callApi($start);
         } catch (NoApiResponseException $e) {
             throw $e;
         }
-
-        // if we can't find a match .... 
-        if (!strpos($json, $target)) {
-            return null;
-        } else {
-            $arr = json_decode($json, associative: true);
-            array_pop($arr); // remove metadata from array
-            $returnArr = $this->recursiveSearch($arr, $target, $start, $desiredResponses);
-            return $returnArr;
-        }
+        $arr = json_decode($json, associative: true);
+        array_pop($arr); // remove metadata from array
+        $returnArr = $this->recursiveSearch($arr, $target, $start, $numOfResponses);
+        return $returnArr;
     }
 
-    private function recursiveSearch($arr, $needle, $index, $desiredResponses, $offset = 0, &$results = array())
-    {
+    private function recursiveSearch(
+        array &$arr,
+        string $target,
+        int $index,
+        int $numOfResponses,
+        int $offset = 0,
+        array &$results = array()
+    ): array {
         foreach ($arr as $key => $value) {
-            $offset = strpos($value["intvals"]["worktitle"], $needle, $offset);
+            try {
+                $offset = strpos($value["id"], $target, $offset);
+            } catch (ValueError $_e) {
+                return $results;
+            }
             if ($offset !== false) {
-                if ($key - 1 >= 0) {
-                    array_push($results, [($key + $index) => $arr[$key - 1]]);
+                for ($i = 0; $i < $numOfResponses && $key + $i < 1000; $i++) {
+                    array_push($results, [($key + $index + $i) => $arr[$key + $i]]); 
                 }
-                for ($i = 0; $i < $desiredResponses; $i++) {
-                    if ($key + $i < 1000) array_push($results, [($key + $index + $i) => $arr[$key + $i]]);
-                }
-                return $this->recursiveSearch(array_slice($arr, count($results)), $needle, $index + count($results), $desiredResponses, $offset, $results);
+                $arr = array_slice($arr, count($results));
+                return $this->recursiveSearch(
+                    $arr,
+                    $target,
+                    $index + count($results),
+                    $numOfResponses,
+                    $offset + 1,
+                    $results
+                );
             } else {
                 return $results;
             }
