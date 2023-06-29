@@ -10,11 +10,19 @@
                 {% for key, row in data %}
                     {% if(row.type == 1) %}
                         <li class="list-group-item d-flex justify-content-between" id="{{ key }}" style="cursor: default">{{ row.id |slice(9, row.id|length) }}
-                            <a class="btn btn-primary" href="{{ path("app_search_favorite", {'id' :  key, 'type' : row.type }) }}">Ajouter aux favoris</a>
+                            {% if app.user %}
+                                <a class="text-decoration-none btn-primary textRed" href="{{ path("app_search_favorite", {'id' :  key, 'type' : row.type }) }}"><i class="fas fa fa-regular fa-heart heartWithoutFont"></i></a>
+                            {% else %}
+                                <a class="text-decoration-none btn-primary textRed" href="{{ path("app_login") }}"><i class="fas fa fa-regular fa-heart heartWithoutFont"></i></a>
+                            {% endif %}
                         </li>
                     {% else %}
                         <li class="list-group-item d-flex justify-content-between" id="{{ key }}" style="cursor: default">{{ row.intvals.worktitle ~ " (" ~ row.intvals.composer ~ ")" }}
-                            <a class="btn btn-primary" href="{{ path("app_search_favorite", {'id' :  key, 'type' : row.type }) }}">Ajouter aux favoris</a>
+                            {% if app.user %}
+                                <a class="text-decoration-none btn-primary textRed" href="{{ path("app_search_favorite", {'id' :  key, 'type' : row.type }) }}"><i class="fas fa fa-regular fa-heart heartWithoutFont"></i></a>
+                                {% else %}
+                                <a class="text-decoration-none btn-primary textRed" href="{{ path("app_login") }}"><i class="fas fa fa-regular fa-heart heartWithoutFont"></i></a>
+                            {% endif %}
                         </li>
                     {% endif %}
                 {% endfor %}
