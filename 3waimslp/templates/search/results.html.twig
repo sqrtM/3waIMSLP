@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+
+    <div class="searchResult mt-4">
+        <ul class="list-group">
+            {% for data in datas %}
+                {% for key, row in data %}
+                    {% if(row.type == 1) %}
+                        <li class="list-group-item d-flex justify-content-between">{{ row.id |slice(9, row.id|length) }}<a class="btn btn-primary">Ajouter aux favoris</a></li>
+                    {% else %}
+                        <li class="list-group-item d-flex justify-content-between" id="{{ key }}">{{ row.intvals.worktitle ~ " (" ~ row.intvals.composer ~ ")" }}<a class="btn btn-primary">Ajouter aux favoris</a></li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

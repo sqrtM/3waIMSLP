@@ -42,15 +42,18 @@
                     <h4 class="mt-5 text-center">
                         Rechercher un artiste ou une oeuvre !
                     </h4>
+
+                {{ form_start(form, { 'action': path("app_search_results"), 'method': 'GET' }) }}
                     <div class="searchBar mt-3 text-center">
-                        <input class="search w-50">
+                        {{ form_widget(form.search)}}
                     </div>
+                {{ form_end(form) }}
             </div>
 
             <div class="containerSearchResults m-auto">
                 {% include 'home/searchResults.html.twig' %}
             </div>
-
+        </div>
 
 
 
