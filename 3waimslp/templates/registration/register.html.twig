@@ -3,17 +3,37 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="containerLogin mt-5 m-auto">
+    <div class="seConnecter">
+        <h1 class="h5 mb-3 font-weight-normal text-white text-center">Register</h1>
+    </div>
 
-    {{ form_errors(registrationForm) }}
+        {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
+        {{ form_start(registrationForm) }}
+    <div class="m-auto w-50 mt-5">
+        <div class="emailRegister">
+            {{ form_row(registrationForm.email) }}
+        </div>
+        <div class="userNameRegister">
+            {{ form_row(registrationForm.username) }}
+        </div>
+        <div class="passwordRegister">
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'
+            }) }}
+        </div>
+    </div>
 
-        <button type="submit" class="btn">Register</button>
+    <div class="text-center p-4">
+            <button type="submit" class="btn-md px-2 mt-2 btnConnecter">Register</button>
+
+            <div class="creerCompte column">
+                <p class="m-0">ou</p>
+                <a class="text-black-50 ms-2" href="{{ path('app_login') }}">Se connecter</a>
+            </div>
+    </div>
+
+</div>
     {{ form_end(registrationForm) }}
 {% endblock %}

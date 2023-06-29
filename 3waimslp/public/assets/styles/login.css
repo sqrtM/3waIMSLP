@@ -1,0 +1,33 @@
+.containerLogin {
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0, rgba(27, 31, 35, 0.15) 0 0 0 1px;
+    width: 602px;
+    height: 500px;
+
+}
+
+.seConnecter {
+    padding: 40px;
+    background-color: #6C98CD;
+}
+
+.btnConnecter {
+    background-color: #6C98CD;
+    color: #fff;
+    border: none;
+    padding: 5px;
+}
+
+.emailRegister > div {
+    display: flex;
+    flex-direction: column;
+}
+.userNameRegister > div {
+    display: flex;
+    flex-direction: column;
+}
+.passwordRegister > div {
+    display: flex;
+    flex-direction: column;
+}
+
+

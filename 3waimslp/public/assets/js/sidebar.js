@@ -1,9 +1,9 @@
 
 if(window.outerWidth < 768) {
-    const sidebarHome = document.querySelector(".sidebarHome");
+    let sidebarHome = document.querySelector(".sidebarHome");
     let menuHamburger = document.querySelector(".menuHamburger");
-    const header = document.querySelector(".headerHome");
-    const containerTitle = document.querySelector(".containerTitle");
+    let header = document.querySelector(".headerHome");
+    let containerTitle = document.querySelector(".containerTitle");
     if(sidebarHome) {
         sidebarHome.classList.add('d-none');
     }
