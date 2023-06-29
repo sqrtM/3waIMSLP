@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Exception\NoApiResponseException;
+use Exception;
+
 class SearchService
 {
     public function __construct()
@@ -12,18 +15,36 @@ class SearchService
 
     public function getMusicByIndex(int $index)
     {
-        $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=2/start=" . $index . "/limit=1/retformat=json");
-        $json = json_decode($response, associative: true);
-        array_pop($json);
-        return $json["0"];
+        try {
+            $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=2/start=" . $index . "/limit=1/retformat=json");
+        } catch (Exception $e) {
+            throw new NoApiResponseException($e->getMessage(), $e->getCode());
+        }
+
+        if ($response === false) {
+            throw new NoApiResponseException();
+        } else {
+            $json = json_decode($response, associative: true);
+            array_pop($json);
+            return $json["0"];
+        }
     }
 
     public function getComposerByIndex(int $index)
     {
-        $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=1/start=" . $index . "/limit=1/retformat=json");
-        $json = json_decode($response, associative: true);
-        array_pop($json);
-        return $json["0"];
+        try {
+            $response = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=1/start=" . $index . "/limit=1/retformat=json");
+        } catch (Exception $e) {
+            throw new NoApiResponseException($e->getMessage(), $e->getCode());
+        }
+
+        if ($response === false) {
+            throw new NoApiResponseException();
+        } else {
+            $json = json_decode($response, associative: true);
+            array_pop($json);
+            return $json["0"];
+        }
     }
 
     public function searchForMusic(string $searchTerm, int $iterations)
@@ -52,18 +73,41 @@ class SearchService
 
     private function callApiForMusic(int $start): string
     {
-        return file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=2/start=" . $start . "/limit=1000/retformat=json");
+        try {
+            $apiResults = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=2/start=" . $start . "/limit=1000/retformat=json");
+        } catch (Exception $e) {
+            throw new NoApiResponseException($e->getMessage(), $e->getCode());
+        }
+        if ($apiResults === false) {
+            throw new NoApiResponseException();
+        } else {
+            return $apiResults;
+        }
     }
 
     private function callApiForComposer(int $start): string
     {
-        return file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=1/start=" . $start . "/limit=1000/retformat=json");
+        try {
+            $apiResults = file_get_contents("https://imslp.org/imslpscripts/API.ISCR.php?account=worklist/disclaimer=accepted/sort=id/type=1/start=" . $start . "/limit=1000/retformat=json");
+        } catch (Exception $e) {
+            throw new NoApiResponseException($e->getMessage(), $e->getCode());
+        }
+        if ($apiResults === false) {
+            throw new NoApiResponseException();
+        } else {
+            return $apiResults;
+        }
     }
 
 
     private function searchApiForTargetMusic(string $target, int $start)
     {
-        $json = $this->callApiForMusic($start);
+        try {
+            $json = $this->callApiForMusic($start);
+        } catch (NoApiResponseException $e) {
+            throw $e;
+        }
+
         // if we can't find a match .... 
         if (!strpos($json, $target)) {
             return null;
@@ -73,7 +117,9 @@ class SearchService
             $returnArr = [];
             foreach ($arr as $key => $value) {
                 if (strpos($value["intvals"]["worktitle"], $target) !== false) {
-                    if ($key - 1 >= 0) { array_push($returnArr, [($key + $start) => $arr[$key - 1]]); }
+                    if ($key - 1 >= 0) {
+                        array_push($returnArr, [($key + $start) => $arr[$key - 1]]);
+                    }
                     array_push($returnArr, [($key + $start) => $arr[$key]]);
                     if ($key + 1 < 1000) array_push($returnArr, [($key + $start + 1) => $arr[$key + 1]]);
                     if ($key + 2 < 1000) array_push($returnArr, [($key + $start + 2) => $arr[$key + 2]]);
@@ -85,7 +131,12 @@ class SearchService
 
     private function searchApiForTargetComposer(string $target, int $start)
     {
-        $json = $this->callApiForComposer($start);
+        try {
+            $json = $this->callApiForComposer($start);
+        } catch (NoApiResponseException $e) {
+            throw $e;
+        }
+
         // if we can't find a match .... 
         if (!strpos($json, $target)) {
             return null;
@@ -95,7 +146,9 @@ class SearchService
             $returnArr = [];
             foreach ($arr as $key => $value) {
                 if (strpos($value["id"], $target) !== false) {
-                    if ($key - 1 >= 0) { array_push($returnArr, [($key + $start) => $arr[$key - 1]]); }
+                    if ($key - 1 >= 0) {
+                        array_push($returnArr, [($key + $start) => $arr[$key - 1]]);
+                    }
                     array_push($returnArr, [($key + $start) => $arr[$key]]);
                     if ($key + 1 < 1000) array_push($returnArr, [($key + $start + 1) => $arr[$key + 1]]);
                     if ($key + 2 < 1000) array_push($returnArr, [($key + $start + 2) => $arr[$key + 2]]);
