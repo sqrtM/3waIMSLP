@@ -29,7 +29,7 @@ class FavoriteController extends AbstractController
         $user = $this->getUser();
 
         if($user === null){
-            $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_login');
         }
 
         $favorites = $this->favoritesRepo->findBy(['favoritedUserId' => $user->getId()]);
